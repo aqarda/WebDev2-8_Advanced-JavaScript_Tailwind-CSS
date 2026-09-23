@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-100 min-h-screen">
+    <header class="bg-white border-b-4 border-violet-500 pb-2">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <h1 class="text-lg font-bold text-slate-900">Unit Converter</h1>
+            <span class="text-xs font-semibold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">CPRG-306-B &middot; Group 8 </span> 
+        </div>
+        <div class="max-w-5xl mx-auto justify-between">
+            <nav class="flex gap-10 mx-10">
+                <button id="weightTab" 
+                    class="px-4 py-2 rounded border-2
+                    hover:bg-slate-300"> 
+                    <!-- Hover just provides feedback when interacting with the buttons-->
+                    Weight
+                </button>
+                <button id="distanceTab" 
+                    class="px-4 py-2 rounded border-2
+                    hover:bg-slate-300">
+                    Distance
+                </button>
+                <button id="temperatureTab" 
+                    class="px-4 py-2 rounded border-2
+                    hover:bg-slate-300">
+                    Temperature
+                </button>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section id="weightSection">
+            <!-- code section for the Weight Converter. 
+            This will be Pounds to Kilograms (Pounds divided by 2.205)
+            and also Kilograms to Pounds (Kilograms Multiplied by 2.205) -->
+        </section>
+        <!-- We initially hide the two sections so they arent all trying to appear at once when the page first loads -->
+        <section id="distanceSection"
+            class="hidden">
+            <!-- code section for the Distance Converter. 
+             This will be Miles to Kilometers (Miles multiplied by 1.60934)
+             and Kilometers to Miles (Kilometers divided by 1.60932)-->
+        </section>
+        <section id="temperatureSection" 
+            class="hidden">
+            <!-- code section for the Temperature Converter. 
+             This will be Celsius to Fahrenheit ((Celsius Multiplied by 1.8) then add 32) 
+             and Fahrenheit to Celsius ((Fahrenheit -32) divided by 1.8)-->
+        </section>
+    </main>
+    
+</body>
+<script src="main.js"></script>
+</html>
