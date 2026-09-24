@@ -44,3 +44,29 @@ temperatureTab.addEventListener("click", () => {
     distanceTab.classList.remove("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
     temperatureTab.classList.add("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
 });
+
+// The Weight Converter components. Making the buttons and handling the math
+const poundsToKilograms = (pounds: number): number => pounds / 2.20462
+const kilogramsToPounds = (kilograms: number): number => kilograms * 2.20462
+
+const poundsInput = document.getElementById("poundsInput") as HTMLInputElement;
+const poundButton = document.getElementById("poundButton") as HTMLButtonElement;
+const poundResult = document.getElementById("poundResult") as HTMLParagraphElement;
+const kgInput = document.getElementById("kgInput") as HTMLInputElement;
+const kgButton = document.getElementById("kgButton") as HTMLButtonElement;
+const kgResult = document.getElementById("kgResult") as HTMLParagraphElement;
+
+const handlePoundConvert = (): void => {
+    const pounds: number = Number(poundsInput.value);
+    const kilograms: number = poundsToKilograms(pounds);
+    kgResult.textContent = kilograms.toFixed(2);
+};
+
+const handleKgConvert = (): void => {
+    const kilograms: number = Number(kgInput.value);
+    const pounds: number = kilogramsToPounds(kilograms);
+    poundResult.textContent = pounds.toFixed(2);
+}
+
+poundButton.addEventListener("click", handlePoundConvert);
+kgButton.addEventListener("click", handleKgConvert);
