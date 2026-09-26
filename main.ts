@@ -67,6 +67,11 @@ temperatureTab.addEventListener("click", () => {
 // We can put all the Input Sections here. Just to keep the same elements in one place
 const poundsInput = document.getElementById("poundsInput") as HTMLInputElement;
 const kgInput = document.getElementById("kgInput") as HTMLInputElement;
+
+// Distance inputs
+const milesInput = document.getElementById("milesInput") as HTMLInputElement;
+const kmInput = document.getElementById("kmInput") as HTMLInputElement;
+
 /*
         Add your consts here
 */
@@ -74,6 +79,11 @@ const kgInput = document.getElementById("kgInput") as HTMLInputElement;
 // The area for all the conversion buttons
 const poundButton = document.getElementById("poundButton") as HTMLButtonElement;
 const kgButton = document.getElementById("kgButton") as HTMLButtonElement;
+
+// Distance buttons
+const milesButton = document.getElementById("milesButton") as HTMLButtonElement;
+const kmButton = document.getElementById("kmButton") as HTMLButtonElement;
+
 /*
         Add your consts here
 */
@@ -82,6 +92,12 @@ const kgButton = document.getElementById("kgButton") as HTMLButtonElement;
 const kgResult = document.getElementById("kgResult") as HTMLParagraphElement;
 // The result of converting KG back to pounds, and will be related to the second form (KG to Pounds)
 const poundResult = document.getElementById("poundResult") as HTMLParagraphElement;
+
+// The result of converting miles to km (first distance form)
+const kmResult = document.getElementById("kmResult") as HTMLParagraphElement;
+// The result of converting km back to miles (second distance form)
+const milesResult = document.getElementById("milesResult") as HTMLParagraphElement;
+
 
 const conversionFunction = (
     fromUnit: string,
@@ -97,6 +113,18 @@ const conversionFunction = (
     if (fromUnit === "kg" && toUnit === "lb") {
         return (value: number): number => value * 2.20462;
     }
+
+    
+    // Miles to Kilometres
+    if (fromUnit === "mi" && toUnit === "km") {
+        return (value: number): number => value * 1.609344;
+    }
+
+    // Kilometres to Miles
+    if (fromUnit === "km" && toUnit === "mi") {
+        return (value: number): number => value / 1.609344;
+    }
+
     /*
         Add your Units here
     */
@@ -113,6 +141,11 @@ const conversionFunction = (
 // Weight Conversion Functions
 const poundsToKilograms = conversionFunction("lb", "kg");
 const kilogramsToPounds = conversionFunction("kg", "lb");
+
+// Distance Conversion Functions
+const milesToKilometres = conversionFunction("mi", "km");
+const kilometresToMiles = conversionFunction("km", "mi");
+
 
 /*
     We still need a way for the buttons to actually perform the conversions when clicked,
@@ -142,7 +175,28 @@ const handleKgConvert = (): void => {
     poundResult.textContent = pounds.toFixed(2);
 };
 
+
+// Handles the Miles to Kilometres converter
+const handleMilesConvert = (): void => {
+    const miles: number = Number(milesInput.value);
+    const kilometres: number = milesToKilometres(miles);
+    kmResult.textContent = kilometres.toFixed(2);
+};
+
+// Handles the Kilometres to Miles converter
+const handleKmConvert = (): void => {
+    const kilometres: number = Number(kmInput.value);
+    const miles: number = kilometresToMiles(kilometres);
+    milesResult.textContent = miles.toFixed(2);
+};
+
+
 // Make sure the buttons know what to listen for, and what to do when they are clicked
+
+
+// Distance Converter Event Listeners
+milesButton.addEventListener("click", handleMilesConvert);
+kmButton.addEventListener("click", handleKmConvert);
 
 // Weight Converter Event Listeners
 poundButton.addEventListener("click", handlePoundConvert);
