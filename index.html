@@ -7,15 +7,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-slate-100 min-h-screen">
-    <!-- Header and navigation section.
-     Displays the site title, group information, and tab buttons used to switch
-     between the Weight, Distance, and Temperature converter sections. -->
+
     <header class="bg-white border-b-4 border-violet-500 pb-2">
 
         <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
 
             <h1 class="text-lg font-bold text-slate-900">Unit Converter</h1>
-            <span class="text-xs font-semibold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">CPRG-306-B &middot; Group 8</span>
+            <span class="text-xs font-semibold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">CPRG-306-B &middot; Group 8 </span>
 
         </div>
 
@@ -48,16 +46,11 @@
         </div>
     </header>
     <main>
-    <!-- Weight conversion section.
-     Contains two converter panels so the user can convert Pounds to Kilograms
-     or Kilograms to Pounds. The converted result is displayed below each input. -->
         <section id="weightSection"
             class="max-w-3xl mx-auto px-6 py-8">
 
             <h2 class="text-2xl font-bold mb-6">Weight Converter</h2>
-            <!-- Responsive grid for the two weight conversion panels.
-                 The panels stack vertically on smaller screens and appear side-by-side
-                 on medium and larger screens. -->
+
             <div class="grid gap-6 md:grid-cols-2">
 
                 <div class="bg-white p-6 rounded-lg shadow-xl">
@@ -113,20 +106,72 @@
             </div>
         </section>
 
-    <!-- Distance and Temperature are hidden on initial page load.
-         JavaScript switches visibility when the user selects a different tab. 
 
-        Distance conversion section.
-        Hidden when the page first loads and displayed when the Distance tab is selected. -->
+        <!-- We initially hide the two sections so they arent all trying to appear at once when the page first loads -->
+        <!-- Distance Card -->
         <section id="distanceSection"
             class="hidden max-w-3xl mx-auto px-6 py-8">
-            <!-- code section for the Distance Converter. 
-             This will be Miles to Kilometers (Miles multiplied by 1.60934)
-             and Kilometers to Miles (Kilometers divided by 1.60934)-->
+
+            <h2 class="text-2xl font-bold mb-6">Distance Converter</h2>
+            <div class="grid gap-6 md:grid-cols-2">
+
+                <!-- Miles to Kilometres -->
+                <div class="bg-white p-6 rounded-lg shadow-xl">
+
+                    <h3 class="text-lg font-semibold mb-4">Miles to Kilometres</h3>
+
+                    <label for="milesInput"
+                        class="block mb-2 font-medium">
+                        Miles:
+                    </label>
+
+                    <input id="milesInput"
+                        type="text"
+                        placeholder="0"
+                        class="w-full border-2 rounded px-3 py-2 mb-4">
+
+                    <button id="milesButton"
+                        class="w-full px-4 py-2 bg-blue-500 text-white rounded
+                        hover:bg-blue-600">
+                        Convert
+                    </button>
+
+                    <div class="mt-5 rounded-lg bg-slate-50 p-4 text-center">
+                        <p class="text-xs uppercase tracking-wide text-slate-500">Kilometres</p>
+                        <p id="kmResult" class="text-2xl font-bold text-blue-600 mt-1">0.00</p>
+                    </div>
+                </div>
+
+                <!-- Kilometres to Miles panel -->
+                <div class="bg-white p-6 rounded-lg shadow-xl">
+
+                    <h3 class="text-lg font-semibold mb-4">Kilometres to Miles</h3>
+
+                    <label for="kmInput"
+                        class="block mb-2 font-medium">
+                        Kilometres:
+                    </label>
+
+                    <input id="kmInput"
+                        type="text"
+                        placeholder="0"
+                        class="w-full border-2 rounded px-3 py-2 mb-4">
+
+                    <button id="kmButton"
+                        class="w-full px-4 py-2 bg-blue-500 text-white rounded
+                        hover:bg-blue-600">
+                        Convert
+                    </button>
+
+                    <div class="mt-5 rounded-lg bg-slate-50 p-4 text-center">
+                        <p class="text-xs uppercase tracking-wide text-slate-500">Miles</p>
+                        <p id="milesResult" class="text-2xl font-bold text-blue-600 mt-1">0.00</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-    <!--Temperature conversion section.
-        Hidden when the page first loads and displayed when the Temperature tab is selected. -->
+        
         <section id="temperatureSection" 
             class="hidden max-w-3xl mx-auto px-6 py-8">
             <!-- code section for the Temperature Converter. 
