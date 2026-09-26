@@ -60,6 +60,9 @@ const kgInput = document.getElementById("kgInput");
 // Distance inputs
 const milesInput = document.getElementById("milesInput");
 const kmInput = document.getElementById("kmInput");
+// Temperature inputs
+const celsiusInput = document.getElementById("celsiusInput");
+const fahrenheitInput = document.getElementById("fahrenheitInput");
 /*
         Add your consts here
 */
@@ -71,7 +74,15 @@ const milesButton = document.getElementById("milesButton");
 const kmButton = document.getElementById("kmButton");
 /*
         Add your consts here
+
 */
+// Temperature buttons
+const celsiusButton = document.getElementById("celsiusButton");
+const fahrenheitButton = document.getElementById("fahrenheitButton");
+// The result of converting Celsius to Fahrenheit (first temperature form)
+const fahrenheitResult = document.getElementById("fahrenheitResult");
+// The result of converting Fahrenheit back to Celsius (second temperature form)
+const celsiusResult = document.getElementById("celsiusResult");
 // The result of converting pounds to KG, and will be related to the first form form (Pounds to KG)
 const kgResult = document.getElementById("kgResult");
 // The result of converting KG back to pounds, and will be related to the second form (KG to Pounds)
@@ -97,6 +108,14 @@ const conversionFunction = (fromUnit, toUnit) => {
     if (fromUnit === "km" && toUnit === "mi") {
         return (value) => value / 1.609344;
     }
+    // Celsius to Fahrenheit
+    if (fromUnit === "C" && toUnit === "F") {
+        return (value) => value * 1.8 + 32;
+    }
+    // Fahrenheit to Celsius
+    if (fromUnit === "F" && toUnit === "C") {
+        return (value) => (value - 32) / 1.8;
+    }
     /*
         Add your Units here
     */
@@ -114,6 +133,9 @@ const kilogramsToPounds = conversionFunction("kg", "lb");
 // Distance Conversion Functions
 const milesToKilometres = conversionFunction("mi", "km");
 const kilometresToMiles = conversionFunction("km", "mi");
+// Temp conversion Functions
+const celsiusToFahrenheit = conversionFunction("C", "F");
+const fahrenheitToCelsius = conversionFunction("F", "C");
 /*
     We still need a way for the buttons to actually perform the conversions when clicked,
     so these Handle Functions read the user input, use the correct conversion function,
@@ -137,15 +159,27 @@ const handleKgConvert = () => {
 };
 // Handles the Miles to Kilometres converter
 const handleMilesConvert = () => {
-    const miles = milesInput.value.split(",").map(Number);
-    const kilometres = miles.map(milesToKilometres);
-    kmResult.textContent = kilometres.map((km) => km.toFixed(2)).join(", ");
+    const miles = Number(milesInput.value);
+    const kilometres = milesToKilometres(miles);
+    kmResult.textContent = kilometres.toFixed(2);
 };
-// Handles the Kilometres to Miles converter (same steps as above)
+// Handles the Kilometres to Miles converter
 const handleKmConvert = () => {
-    const kilometres = kmInput.value.split(",").map(Number);
-    const miles = kilometres.map(kilometresToMiles);
-    milesResult.textContent = miles.map((mi) => mi.toFixed(2)).join(", ");
+    const kilometres = Number(kmInput.value);
+    const miles = kilometresToMiles(kilometres);
+    milesResult.textContent = miles.toFixed(2);
+};
+// Handles the Celsius to Fahrenheit converter
+const handleCelsiusConvert = () => {
+    const celsius = Number(celsiusInput.value);
+    const fahrenheit = celsiusToFahrenheit(celsius);
+    fahrenheitResult.textContent = fahrenheit.toFixed(2);
+};
+// Handles the Fahrenheit to Celsius converter
+const handleFahrenheitConvert = () => {
+    const fahrenheit = Number(fahrenheitInput.value);
+    const celsius = fahrenheitToCelsius(fahrenheit);
+    celsiusResult.textContent = celsius.toFixed(2);
 };
 // Make sure the buttons know what to listen for, and what to do when they are clicked
 // Distance Converter Event Listeners
@@ -154,4 +188,7 @@ kmButton.addEventListener("click", handleKmConvert);
 // Weight Converter Event Listeners
 poundButton.addEventListener("click", handlePoundConvert);
 kgButton.addEventListener("click", handleKgConvert);
+// Temperature Converter Event Listeners
+celsiusButton.addEventListener("click", handleCelsiusConvert);
+fahrenheitButton.addEventListener("click", handleFahrenheitConvert);
 //# sourceMappingURL=main.js.map

@@ -72,6 +72,10 @@ const kgInput = document.getElementById("kgInput") as HTMLInputElement;
 const milesInput = document.getElementById("milesInput") as HTMLInputElement;
 const kmInput = document.getElementById("kmInput") as HTMLInputElement;
 
+// Temperature inputs
+const celsiusInput = document.getElementById("celsiusInput") as HTMLInputElement;
+const fahrenheitInput = document.getElementById("fahrenheitInput") as HTMLInputElement;
+
 /*
         Add your consts here
 */
@@ -86,7 +90,18 @@ const kmButton = document.getElementById("kmButton") as HTMLButtonElement;
 
 /*
         Add your consts here
+
 */
+
+
+// Temperature buttons
+const celsiusButton = document.getElementById("celsiusButton") as HTMLButtonElement;
+const fahrenheitButton = document.getElementById("fahrenheitButton") as HTMLButtonElement;
+
+// The result of converting Celsius to Fahrenheit (first temperature form)
+const fahrenheitResult = document.getElementById("fahrenheitResult") as HTMLParagraphElement;
+// The result of converting Fahrenheit back to Celsius (second temperature form)
+const celsiusResult = document.getElementById("celsiusResult") as HTMLParagraphElement;
 
 // The result of converting pounds to KG, and will be related to the first form form (Pounds to KG)
 const kgResult = document.getElementById("kgResult") as HTMLParagraphElement;
@@ -125,6 +140,16 @@ const conversionFunction = (
         return (value: number): number => value / 1.609344;
     }
 
+    // Celsius to Fahrenheit
+    if (fromUnit === "C" && toUnit === "F") {
+        return (value: number): number => value * 1.8 + 32;
+    }
+
+    // Fahrenheit to Celsius
+    if (fromUnit === "F" && toUnit === "C") {
+        return (value: number): number => (value - 32) / 1.8;
+    }
+
     /*
         Add your Units here
     */
@@ -145,6 +170,10 @@ const kilogramsToPounds = conversionFunction("kg", "lb");
 // Distance Conversion Functions
 const milesToKilometres = conversionFunction("mi", "km");
 const kilometresToMiles = conversionFunction("km", "mi");
+
+// Temp conversion Functions
+const celsiusToFahrenheit = conversionFunction("C", "F");
+const fahrenheitToCelsius = conversionFunction("F", "C");
 
 
 /*
@@ -190,6 +219,19 @@ const handleKmConvert = (): void => {
     milesResult.textContent = miles.toFixed(2);
 };
 
+// Handles the Celsius to Fahrenheit converter
+const handleCelsiusConvert = (): void => {
+    const celsius: number = Number(celsiusInput.value);
+    const fahrenheit: number = celsiusToFahrenheit(celsius);
+    fahrenheitResult.textContent = fahrenheit.toFixed(2);
+};
+
+// Handles the Fahrenheit to Celsius converter
+const handleFahrenheitConvert = (): void => {
+    const fahrenheit: number = Number(fahrenheitInput.value);
+    const celsius: number = fahrenheitToCelsius(fahrenheit);
+    celsiusResult.textContent = celsius.toFixed(2);
+};
 
 // Make sure the buttons know what to listen for, and what to do when they are clicked
 
@@ -201,3 +243,7 @@ kmButton.addEventListener("click", handleKmConvert);
 // Weight Converter Event Listeners
 poundButton.addEventListener("click", handlePoundConvert);
 kgButton.addEventListener("click", handleKgConvert);
+
+// Temperature Converter Event Listeners
+celsiusButton.addEventListener("click", handleCelsiusConvert);
+fahrenheitButton.addEventListener("click", handleFahrenheitConvert);
