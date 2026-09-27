@@ -10,7 +10,7 @@ The converted result is then displayed on the webpage.
 The navigation buttons also allow the user to switch between the three converter sections.
 */
 
-// Starting with the Nav Bar and Seperate form sections
+// Starting with the Nav Bar and Separate form sections
 
 // These are the Navigation buttons used to switch between the three converter sections
 const weightTab = document.getElementById("weightTab") as HTMLButtonElement;
@@ -59,7 +59,7 @@ temperatureTab.addEventListener("click", () => {
     temperatureTab.classList.add("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
 });
 
-// We can put all the Input Sections here. Just to keep the same elements in one place
+// We put all the Input Sections here. Just to keep the same elements in one place
 const poundsInput = document.getElementById("poundsInput") as HTMLInputElement;
 const kgInput = document.getElementById("kgInput") as HTMLInputElement;
 
@@ -88,7 +88,7 @@ const fahrenheitResult = document.getElementById("fahrenheitResult") as HTMLPara
 // The result of converting Fahrenheit back to Celsius (second temperature form)
 const celsiusResult = document.getElementById("celsiusResult") as HTMLParagraphElement;
 
-// The result of converting pounds to KG, and will be related to the first form form (Pounds to KG)
+// The result of converting pounds to KG, and will be related to the first form (Pounds to KG)
 const kgResult = document.getElementById("kgResult") as HTMLParagraphElement;
 // The result of converting KG back to pounds, and will be related to the second form (KG to Pounds)
 const poundResult = document.getElementById("poundResult") as HTMLParagraphElement;
