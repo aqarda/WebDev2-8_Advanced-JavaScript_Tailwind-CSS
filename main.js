@@ -141,13 +141,6 @@ const fahrenheitToCelsius = conversionFunction("F", "C");
     so these Handle Functions read the user input, use the correct conversion function,
     and then display the answer on the page.
 */
-const convertValues = (text, convert) => {
-    const results = [];
-    for (const piece of text.split(",")) {
-        results.push(convert(Number(piece)).toFixed(2));
-    }
-    return results.join(", ");
-};
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = () => {
     // Take the value from the Pounds input box and turn it into a number
