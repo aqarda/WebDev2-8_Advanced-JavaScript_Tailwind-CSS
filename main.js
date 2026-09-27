@@ -1,6 +1,6 @@
 "use strict";
 
-// Starting with the Nav Bar and Seperate form sections
+// Starting with the Nav Bar and Separate form sections
 // These are the Navigation buttons used to switch between the three converter sections
 const weightTab = document.getElementById("weightTab");
 const distanceTab = document.getElementById("distanceTab");
