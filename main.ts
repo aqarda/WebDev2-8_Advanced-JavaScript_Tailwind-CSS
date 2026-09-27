@@ -1,9 +1,4 @@
 /*
-Im not sure if this should be here or in the Index.html section. 
-But we do need a top comment in one of our sections.
-figured Id make a simple one and we can edit it later
-I also dont know if your full names are the ones you guys prefer. I just copy/pasted your teams names in here
-
 Names: Patrick Bouley, John Leandro Loyao, Fernando Lopez-Areal Serrano
 Date: September. 24, 2026
 
@@ -76,10 +71,6 @@ const kmInput = document.getElementById("kmInput") as HTMLInputElement;
 const celsiusInput = document.getElementById("celsiusInput") as HTMLInputElement;
 const fahrenheitInput = document.getElementById("fahrenheitInput") as HTMLInputElement;
 
-/*
-        Add your consts here
-*/
-
 // The area for all the conversion buttons
 const poundButton = document.getElementById("poundButton") as HTMLButtonElement;
 const kgButton = document.getElementById("kgButton") as HTMLButtonElement;
@@ -87,12 +78,6 @@ const kgButton = document.getElementById("kgButton") as HTMLButtonElement;
 // Distance buttons
 const milesButton = document.getElementById("milesButton") as HTMLButtonElement;
 const kmButton = document.getElementById("kmButton") as HTMLButtonElement;
-
-/*
-        Add your consts here
-
-*/
-
 
 // Temperature buttons
 const celsiusButton = document.getElementById("celsiusButton") as HTMLButtonElement;
@@ -113,41 +98,95 @@ const kmResult = document.getElementById("kmResult") as HTMLParagraphElement;
 // The result of converting km back to miles (second distance form)
 const milesResult = document.getElementById("milesResult") as HTMLParagraphElement;
 
+/*
+    This is the higher-order function that decides which conversion we need.
 
+    It takes in the unit we are converting from and the unit we are converting to.
+    It then returns a new function that handles the correct conversion math.
+
+    The returned function can take either one number or an array of numbers.
+    If it receives an array, it uses map to convert every value in that array.
+*/
 const conversionFunction = (
     fromUnit: string,
     toUnit: string
-): ((value: number) => number) => {
+): ((value: number | number[]) => number | number[]) => {
+
+    // Each unit will take two units for conversion. and use the proper conversion based on the units provided 
 
     // Pounds to Kilograms
     if (fromUnit === "lb" && toUnit === "kg") {
-        return (value: number): number => value / 2.20462;
-    }
 
+        return (value: number | number[]): number | number[] => {
+            // if multiple values are entered, this converts all numbers in the array
+            if (Array.isArray(value)) {
+                return value.map((number: number) => number / 2.20462);
+            }
+            // but if only one value is entered, it will just convert that one value
+            return value / 2.20462;
+        };
+    }
     // Kilograms to Pounds
     if (fromUnit === "kg" && toUnit === "lb") {
-        return (value: number): number => value * 2.20462;
-    }
 
+        return (value: number | number[]): number | number[] => {
+
+            if (Array.isArray(value)) {
+                return value.map((number: number) => number * 2.20462);
+            }
+
+            return value * 2.20462;
+        };
+    }
     // Miles to Kilometres
     if (fromUnit === "mi" && toUnit === "km") {
-        return (value: number): number => value * 1.609344;
-    }
 
+        return (value: number | number[]): number | number[] => {
+
+            if (Array.isArray(value)) {
+                return value.map((number: number) => number * 1.609344);
+            }
+
+            return value * 1.609344;
+        };
+    }
     // Kilometres to Miles
     if (fromUnit === "km" && toUnit === "mi") {
-        return (value: number): number => value / 1.609344;
-    }
 
+        return (value: number | number[]): number | number[] => {
+
+            if (Array.isArray(value)) {
+                return value.map((number: number) => number / 1.609344);
+            }
+
+            return value / 1.609344;
+        };
+    }
     // Celsius to Fahrenheit
     if (fromUnit === "C" && toUnit === "F") {
-        return (value: number): number => value * 1.8 + 32;
-    }
 
+        return (value: number | number[]): number | number[] => {
+
+            if (Array.isArray(value)) {
+                return value.map((number: number) => number * 1.8 + 32);
+            }
+
+            return value * 1.8 + 32;
+        };
+    }
     // Fahrenheit to Celsius
     if (fromUnit === "F" && toUnit === "C") {
-        return (value: number): number => (value - 32) / 1.8;
+
+        return (value: number | number[]): number | number[] => {
+
+            if (Array.isArray(value)) {
+                return value.map((number: number) => (number - 32) / 1.8);
+            }
+
+            return (value - 32) / 1.8;
+        };
     }
+
     // This will only happen if the units passed into the function do not match one of our conversions
     throw new Error("Invalid conversion");
 };
@@ -170,89 +209,149 @@ const kilometresToMiles = conversionFunction("km", "mi");
 const celsiusToFahrenheit = conversionFunction("C", "F");
 const fahrenheitToCelsius = conversionFunction("F", "C");
 
+// Because our inputs are all type:text, we have to check that string and see what values are in it
+// This will split those values from the commas, convert them back to numbers and return the proper values.
+// Either a single number. A number array, or null if something other than numbers is inputted 
+const parseInput = (input: string): number | number[] | null => {
+
+    const values: string[] = input.split(",");
+    const numbers: number[] = [];
+
+    for (const value of values) {
+        const trimmedValue: string = value.trim();
+
+        if (trimmedValue === "") {
+            return null;
+        }
+
+        const numberValue: number = Number(trimmedValue);
+
+        if (isNaN(numberValue)) {
+            return null;
+        }
+
+        numbers.push(numberValue);
+    }
+
+    if (numbers.length === 1) {
+        const [singleValue] = numbers;
+        return typeof singleValue === "number" ? singleValue : null;
+    }
+
+    return numbers;
+};
 
 /*
-    We still need a way for the buttons to actually perform the conversions when clicked,
-    so these Handle Functions read the user input, use the correct conversion function,
-    and then display the answer on the page.
+    This helper function prepares the converted result to be displayed.
+    This will be used for all the following handleConversion functions below
+    A single number will display as one value.
+    An array will display each converted number separated by commas.
+*/
+
+const displayResult = (result: number | number[]): string => {
+
+    if (Array.isArray(result)) {
+
+        const formattedResults: string[] = result.map(
+            (number: number) => number.toFixed(2)
+        );
+
+        return formattedResults.join(", ");
+    }
+
+    return result.toFixed(2);
+};
+
+/*
+    These Handle Functions read what the user entered, make sure the input is valid,
+    send either the single number or array into the correct conversion function,
+    and then display the result.
 */
 
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = (): void => {
-    const results: string[] = [];
 
-    // We loop through each value seperated by the comma, and convert them back to numbers
-    // This also takes the input for the specific box associated with the conversion
-    for (const value of poundsInput.value.split(",")) {
+    // this const stores whatever values came from our parseInput function
+    // it allows us to use the values with their proper converters 
+    const input = parseInput(poundsInput.value);
 
-        // Take the value from the Pounds input box and turn it into a number
-        const pounds: number = Number(value);
-
-        // Use the conversion function we created above
-        const kilograms: number = poundsToKilograms(pounds);
-
-        // round each value to two decimal points
-        results.push(kilograms.toFixed(2));
+    // If invalid text or blank values were entered, display an error message
+    if (input === null) {
+        kgResult.textContent = "Please enter a number or numbers separated by commas";
+        return;
     }
-    // Take the results and display them, in the order they were put in, seperated by the comma 
-    kgResult.textContent = results.join(", ")
+    // We made this const to actually convert those results before we display them
+    const result = poundsToKilograms(input);
+
+    // This then takes the proper results, puts them back to text, and displays them for the user
+    kgResult.textContent = displayResult(result);
 };
-// Each converter will follow this format, so im only putting comments in this one
+// All Convert Functions will follow this structure. so comments will only be in this one
 
 
 // Handles the Kilograms to Pounds converter
 const handleKgConvert = (): void => {
-    const results: string[] = [];
 
-    for (const value of kgInput.value.split(",")) {
-        const kilograms: number = Number(value);
-        const pounds: number = kilogramsToPounds(kilograms);
-        results.push(pounds.toFixed(2));
+    const input = parseInput(kgInput.value);
+
+    if (input === null) {
+        poundResult.textContent = "Please enter a number or numbers separated by commas";
+        return;
     }
-    poundResult.textContent = results.join(", ");
+    const result = kilogramsToPounds(input);
+    poundResult.textContent = displayResult(result);
 };
 
 
 // Handles the Miles to Kilometres converter
 const handleMilesConvert = (): void => {
-    const results: string[] = [];
 
-    for (const value of milesInput.value.split(",")) {
-        const miles: number = Number(value);
-        const kilometres: number = milesToKilometres(miles);
-        results.push(kilometres.toFixed(2));
+    const input = parseInput(milesInput.value);
+    if (input === null) {
+        kmResult.textContent = "Please enter a number or numbers separated by commas";
+        return;
     }
-
-    kmResult.textContent = results.join(", ");
-
+    const result = milesToKilometres(input);
+    kmResult.textContent = displayResult(result);
 };
 
+
+// Handles the Kilometres to Miles converter
 const handleKmConvert = (): void => {
-    const results: string[] = [];
 
-    for (const value of kmInput.value.split(",")) {
-        const kilometres: number = Number(value);
-        const miles: number = kilometresToMiles(kilometres);
-        results.push(miles.toFixed(2));
+    const input = parseInput(kmInput.value);
+    if (input === null) {
+        milesResult.textContent = "Please enter a number or numbers separated by commas";
+        return;
     }
-
-    milesResult.textContent = results.join(", ");
-    
+    const result = kilometresToMiles(input);
+    milesResult.textContent = displayResult(result);
 };
 
 
 // Handles the Celsius to Fahrenheit converter
 const handleCelsiusConvert = (): void => {
-    const celsius: number = Number(celsiusInput.value);
-    const fahrenheit: number = celsiusToFahrenheit(celsius);
-    fahrenheitResult.textContent = fahrenheit.toFixed(2);
+
+    const input = parseInput(celsiusInput.value);
+    if (input === null) {
+        fahrenheitResult.textContent = "Please enter a number or numbers separated by commas";
+        return;
+    }
+    const result = celsiusToFahrenheit(input);
+    fahrenheitResult.textContent = displayResult(result);
 };
+
 
 // Handles the Fahrenheit to Celsius converter
 const handleFahrenheitConvert = (): void => {
-    const fahrenheit: number = Number(fahrenheitInput.value);
-    const celsius: number = fahrenheitToCelsius(fahrenheit);
-    celsiusResult.textContent = celsius.toFixed(2);
+
+    const input = parseInput(fahrenheitInput.value);
+    if (input === null) {
+        celsiusResult.textContent = "Please enter a number or numbers separated by commas";
+        return;
+    }
+    const result = fahrenheitToCelsius(input);
+    celsiusResult.textContent = displayResult(result);
 };
 
 // Make sure the buttons know what to listen for, and what to do when they are clicked
