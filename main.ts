@@ -182,16 +182,6 @@ const fahrenheitToCelsius = conversionFunction("F", "C");
     and then display the answer on the page.
 */
 
-const convertValues = (text: string, convert: (value: number) => number): string => {
-    const results: string[] = [];
-
-    for (const piece of text.split(",")) {
-        results.push(convert(Number(piece)).toFixed(2));
-    }
-
-    return results.join(", ");
-};
-
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = (): void => {
 
