@@ -129,7 +129,6 @@ const conversionFunction = (
         return (value: number): number => value * 2.20462;
     }
 
-    
     // Miles to Kilometres
     if (fromUnit === "mi" && toUnit === "km") {
         return (value: number): number => value * 1.609344;
@@ -149,10 +148,6 @@ const conversionFunction = (
     if (fromUnit === "F" && toUnit === "C") {
         return (value: number): number => (value - 32) / 1.8;
     }
-
-    /*
-        Add your Units here
-    */
     // This will only happen if the units passed into the function do not match one of our conversions
     throw new Error("Invalid conversion");
 };
@@ -184,24 +179,37 @@ const fahrenheitToCelsius = conversionFunction("F", "C");
 
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = (): void => {
+    const results: string[] = [];
 
-    // Take the value from the Pounds input box and turn it into a number
-    const pounds: number = Number(poundsInput.value);
+    // We loop through each value seperated by the comma, and convert them back to numbers
+    // This also takes the input for the specific box associated with the conversion
+    for (const value of poundsInput.value.split(",")) {
 
-    // Use the conversion function we created above
-    const kilograms: number = poundsToKilograms(pounds);
+        // Take the value from the Pounds input box and turn it into a number
+        const pounds: number = Number(value);
 
-    // Display the result and round it to two decimal places
-    kgResult.textContent = kilograms.toFixed(2);
+        // Use the conversion function we created above
+        const kilograms: number = poundsToKilograms(pounds);
+
+        // round each value to two decimal points
+        results.push(kilograms.toFixed(2));
+    }
+    // Take the results and display them, in the order they were put in, seperated by the comma 
+    kgResult.textContent = results.join(", ")
 };
 // Each converter will follow this format, so im only putting comments in this one
 
 
 // Handles the Kilograms to Pounds converter
 const handleKgConvert = (): void => {
-    const kilograms: number = Number(kgInput.value);
-    const pounds: number = kilogramsToPounds(kilograms);
-    poundResult.textContent = pounds.toFixed(2);
+    const results: string[] = [];
+
+    for (const value of kgInput.value.split(",")) {
+        const kilograms: number = Number(value);
+        const pounds: number = kilogramsToPounds(kilograms);
+        results.push(pounds.toFixed(2));
+    }
+    poundResult.textContent = results.join(", ");
 };
 
 

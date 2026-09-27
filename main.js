@@ -116,9 +116,6 @@ const conversionFunction = (fromUnit, toUnit) => {
     if (fromUnit === "F" && toUnit === "C") {
         return (value) => (value - 32) / 1.8;
     }
-    /*
-        Add your Units here
-    */
     // This will only happen if the units passed into the function do not match one of our conversions
     throw new Error("Invalid conversion");
 };
@@ -143,19 +140,30 @@ const fahrenheitToCelsius = conversionFunction("F", "C");
 */
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = () => {
-    // Take the value from the Pounds input box and turn it into a number
-    const pounds = Number(poundsInput.value);
-    // Use the conversion function we created above
-    const kilograms = poundsToKilograms(pounds);
-    // Display the result and round it to two decimal places
-    kgResult.textContent = kilograms.toFixed(2);
+    const results = [];
+    // We loop through each value seperated by the comma, and convert them back to numbers
+    // This also takes the input for the specific box associated with the conversion
+    for (const value of poundsInput.value.split(",")) {
+        // Take the value from the Pounds input box and turn it into a number
+        const pounds = Number(value);
+        // Use the conversion function we created above
+        const kilograms = poundsToKilograms(pounds);
+        // round each value to two decimal points
+        results.push(kilograms.toFixed(2));
+    }
+    // Take the results and display them, in the order they were put in, seperated by the comma 
+    kgResult.textContent = results.join(", ");
 };
 // Each converter will follow this format, so im only putting comments in this one
 // Handles the Kilograms to Pounds converter
 const handleKgConvert = () => {
-    const kilograms = Number(kgInput.value);
-    const pounds = kilogramsToPounds(kilograms);
-    poundResult.textContent = pounds.toFixed(2);
+    const results = [];
+    for (const value of kgInput.value.split(",")) {
+        const kilograms = Number(value);
+        const pounds = kilogramsToPounds(kilograms);
+        results.push(pounds.toFixed(2));
+    }
+    poundResult.textContent = results.join(", ");
 };
 // Handles the Miles to Kilometres converter
 const handleMilesConvert = () => {
@@ -198,4 +206,3 @@ kgButton.addEventListener("click", handleKgConvert);
 // Temperature Converter Event Listeners
 celsiusButton.addEventListener("click", handleCelsiusConvert);
 fahrenheitButton.addEventListener("click", handleFahrenheitConvert);
-//# sourceMappingURL=main.js.map
