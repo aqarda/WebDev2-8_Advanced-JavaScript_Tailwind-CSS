@@ -182,6 +182,16 @@ const fahrenheitToCelsius = conversionFunction("F", "C");
     and then display the answer on the page.
 */
 
+const convertValues = (text: string, convert: (value: number) => number): string => {
+    const results: string[] = [];
+
+    for (const piece of text.split(",")) {
+        results.push(convert(Number(piece)).toFixed(2));
+    }
+
+    return results.join(", ");
+};
+
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = (): void => {
 
@@ -207,17 +217,31 @@ const handleKgConvert = (): void => {
 
 // Handles the Miles to Kilometres converter
 const handleMilesConvert = (): void => {
-    const miles: number = Number(milesInput.value);
-    const kilometres: number = milesToKilometres(miles);
-    kmResult.textContent = kilometres.toFixed(2);
+    const results: string[] = [];
+
+    for (const value of milesInput.value.split(",")) {
+        const miles: number = Number(value);
+        const kilometres: number = milesToKilometres(miles);
+        results.push(kilometres.toFixed(2));
+    }
+
+    kmResult.textContent = results.join(", ");
+
 };
 
-// Handles the Kilometres to Miles converter
 const handleKmConvert = (): void => {
-    const kilometres: number = Number(kmInput.value);
-    const miles: number = kilometresToMiles(kilometres);
-    milesResult.textContent = miles.toFixed(2);
+    const results: string[] = [];
+
+    for (const value of kmInput.value.split(",")) {
+        const kilometres: number = Number(value);
+        const miles: number = kilometresToMiles(kilometres);
+        results.push(miles.toFixed(2));
+    }
+
+    milesResult.textContent = results.join(", ");
+    
 };
+
 
 // Handles the Celsius to Fahrenheit converter
 const handleCelsiusConvert = (): void => {

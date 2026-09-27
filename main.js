@@ -141,6 +141,13 @@ const fahrenheitToCelsius = conversionFunction("F", "C");
     so these Handle Functions read the user input, use the correct conversion function,
     and then display the answer on the page.
 */
+const convertValues = (text, convert) => {
+    const results = [];
+    for (const piece of text.split(",")) {
+        results.push(convert(Number(piece)).toFixed(2));
+    }
+    return results.join(", ");
+};
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = () => {
     // Take the value from the Pounds input box and turn it into a number
@@ -159,15 +166,22 @@ const handleKgConvert = () => {
 };
 // Handles the Miles to Kilometres converter
 const handleMilesConvert = () => {
-    const miles = Number(milesInput.value);
-    const kilometres = milesToKilometres(miles);
-    kmResult.textContent = kilometres.toFixed(2);
+    const results = [];
+    for (const value of milesInput.value.split(",")) {
+        const miles = Number(value);
+        const kilometres = milesToKilometres(miles);
+        results.push(kilometres.toFixed(2));
+    }
+    kmResult.textContent = results.join(", ");
 };
-// Handles the Kilometres to Miles converter
 const handleKmConvert = () => {
-    const kilometres = Number(kmInput.value);
-    const miles = kilometresToMiles(kilometres);
-    milesResult.textContent = miles.toFixed(2);
+    const results = [];
+    for (const value of kmInput.value.split(",")) {
+        const kilometres = Number(value);
+        const miles = kilometresToMiles(kilometres);
+        results.push(miles.toFixed(2));
+    }
+    milesResult.textContent = results.join(", ");
 };
 // Handles the Celsius to Fahrenheit converter
 const handleCelsiusConvert = () => {
