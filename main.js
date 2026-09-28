@@ -1,11 +1,20 @@
 "use strict";
+/*
+Names: Patrick Bouley, John Leandro Loyao, Fernando Lopez-Areal Serrano
+Date: September. 24, 2026
 
+Program Description:
+This program controls a responsive unit conversion website for Weight, Distance, and Temperature.
+The user enters a value into one of the converter inputs and selects the Convert button.
+The program processes the input using the appropriate conversion function.
+The converted result is then displayed on the webpage.
+The navigation buttons also allow the user to switch between the three converter sections.
+*/
 // Starting with the Nav Bar and Separate form sections
 // These are the Navigation buttons used to switch between the three converter sections
 const weightTab = document.getElementById("weightTab");
 const distanceTab = document.getElementById("distanceTab");
 const temperatureTab = document.getElementById("temperatureTab");
-
 // These are the main sections that contain the Weight, Distance, and Temperature Converters
 const weightSection = document.getElementById("weightSection");
 const distanceSection = document.getElementById("distanceSection");
@@ -22,7 +31,6 @@ weightTab.addEventListener("click", () => {
     distanceTab.classList.remove("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
     temperatureTab.classList.remove("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
 });
-
 /* We do the same for the other two buttons
 using "remove" and "add" doesnt create multiple copies of a class state. */
 distanceTab.addEventListener("click", () => {
@@ -33,7 +41,6 @@ distanceTab.addEventListener("click", () => {
     distanceTab.classList.add("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
     temperatureTab.classList.remove("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
 });
-
 temperatureTab.addEventListener("click", () => {
     weightSection.classList.add("hidden");
     distanceSection.classList.add("hidden");
@@ -42,31 +49,24 @@ temperatureTab.addEventListener("click", () => {
     distanceTab.classList.remove("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
     temperatureTab.classList.add("bg-blue-500", "ring-2", "ring-blue-500", "text-white");
 });
-
-// We can put all the Input Sections here. Just to keep the same elements in one place
+// We put all the Input Sections here. Just to keep the same elements in one place
 const poundsInput = document.getElementById("poundsInput");
 const kgInput = document.getElementById("kgInput");
-
 // Distance inputs
 const milesInput = document.getElementById("milesInput");
 const kmInput = document.getElementById("kmInput");
-
 // Temperature inputs
 const celsiusInput = document.getElementById("celsiusInput");
 const fahrenheitInput = document.getElementById("fahrenheitInput");
-
 // The area for all the conversion buttons
 const poundButton = document.getElementById("poundButton");
 const kgButton = document.getElementById("kgButton");
-
 // Distance buttons
 const milesButton = document.getElementById("milesButton");
 const kmButton = document.getElementById("kmButton");
-
 // Temperature buttons
 const celsiusButton = document.getElementById("celsiusButton");
 const fahrenheitButton = document.getElementById("fahrenheitButton");
-
 // The result of converting Celsius to Fahrenheit (first temperature form)
 const fahrenheitResult = document.getElementById("fahrenheitResult");
 // The result of converting Fahrenheit back to Celsius (second temperature form)
@@ -79,7 +79,6 @@ const poundResult = document.getElementById("poundResult");
 const kmResult = document.getElementById("kmResult");
 // The result of converting km back to miles (second distance form)
 const milesResult = document.getElementById("milesResult");
-
 /*
     This is the higher-order function that decides which conversion we need.
 
@@ -150,7 +149,6 @@ const conversionFunction = (fromUnit, toUnit) => {
     // This will only happen if the units passed into the function do not match one of our conversions
     throw new Error("Invalid conversion");
 };
-
 /*
     This is where we create the individual conversion functions.
     conversionFunction returns the correct arrow function based on the two units we give it.
@@ -159,15 +157,12 @@ const conversionFunction = (fromUnit, toUnit) => {
 // Weight Conversion Functions
 const poundsToKilograms = conversionFunction("lb", "kg");
 const kilogramsToPounds = conversionFunction("kg", "lb");
-
 // Distance Conversion Functions
 const milesToKilometres = conversionFunction("mi", "km");
 const kilometresToMiles = conversionFunction("km", "mi");
-
 // Temp conversion Functions
 const celsiusToFahrenheit = conversionFunction("C", "F");
 const fahrenheitToCelsius = conversionFunction("F", "C");
-
 // Because our inputs are all type:text, we have to check that string and see what values are in it
 // This will split those values from the commas, convert them back to numbers and return the proper values.
 // Either a single number. A number array, or null if something other than numbers is inputted 
@@ -191,9 +186,8 @@ const parseInput = (input) => {
     }
     return numbers;
 };
-
 /*
-    This function prepares the converted result to be displayed.
+    This helper function prepares the converted result to be displayed.
     This will be used for all the following handleConversion functions below
     A single number will display as one value.
     An array will display each converted number separated by commas.
@@ -205,13 +199,11 @@ const displayResult = (result) => {
     }
     return result.toFixed(2);
 };
-
 /*
     These Handle Functions read what the user entered, make sure the input is valid,
     send either the single number or array into the correct conversion function,
     and then display the result.
 */
-
 // Handles the Pounds to Kilograms converter
 const handlePoundConvert = () => {
     // this const stores whatever values came from our parseInput function
@@ -228,7 +220,6 @@ const handlePoundConvert = () => {
     kgResult.textContent = displayResult(result);
 };
 // All Convert Functions will follow this structure. so comments will only be in this one
-
 // Handles the Kilograms to Pounds converter
 const handleKgConvert = () => {
     const input = parseInput(kgInput.value);
@@ -239,7 +230,6 @@ const handleKgConvert = () => {
     const result = kilogramsToPounds(input);
     poundResult.textContent = displayResult(result);
 };
-
 // Handles the Miles to Kilometres converter
 const handleMilesConvert = () => {
     const input = parseInput(milesInput.value);
@@ -250,7 +240,6 @@ const handleMilesConvert = () => {
     const result = milesToKilometres(input);
     kmResult.textContent = displayResult(result);
 };
-
 // Handles the Kilometres to Miles converter
 const handleKmConvert = () => {
     const input = parseInput(kmInput.value);
@@ -261,7 +250,6 @@ const handleKmConvert = () => {
     const result = kilometresToMiles(input);
     milesResult.textContent = displayResult(result);
 };
-
 // Handles the Celsius to Fahrenheit converter
 const handleCelsiusConvert = () => {
     const input = parseInput(celsiusInput.value);
@@ -272,7 +260,6 @@ const handleCelsiusConvert = () => {
     const result = celsiusToFahrenheit(input);
     fahrenheitResult.textContent = displayResult(result);
 };
-
 // Handles the Fahrenheit to Celsius converter
 const handleFahrenheitConvert = () => {
     const input = parseInput(fahrenheitInput.value);
@@ -283,16 +270,14 @@ const handleFahrenheitConvert = () => {
     const result = fahrenheitToCelsius(input);
     celsiusResult.textContent = displayResult(result);
 };
-
 // Make sure the buttons know what to listen for, and what to do when they are clicked
 // Distance Converter Event Listeners
 milesButton.addEventListener("click", handleMilesConvert);
 kmButton.addEventListener("click", handleKmConvert);
-
 // Weight Converter Event Listeners
 poundButton.addEventListener("click", handlePoundConvert);
 kgButton.addEventListener("click", handleKgConvert);
-
 // Temperature Converter Event Listeners
 celsiusButton.addEventListener("click", handleCelsiusConvert);
 fahrenheitButton.addEventListener("click", handleFahrenheitConvert);
+//# sourceMappingURL=main.js.map
